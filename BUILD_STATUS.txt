@@ -1,0 +1,36 @@
+Build-Prüfung: 04.11.2026
+
+Toolchain: Arm-GCC 12.3.1; direkter Build über tools/build.py.
+
+pvd / Debug: Kompilieren und Linken erfolgreich.
+firmware\pvd\Core\Src\X_stm32f1xx_system.c:9:22: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+firmware\pvd\Core\Src\X_stm32f1xx_system.c:10:30: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+firmware\pvd\Core\Src\X_stm32f1xx_system.c:256:16: warning: unused parameter 'file' [-Wunused-parameter]
+firmware\pvd\rtc\rtc.c:170:27: warning: format '%u' expects argument of type 'unsigned int', but argument 3 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+firmware\pvd\rtc\rtc.c:170:32: warning: format '%u' expects argument of type 'unsigned int', but argument 4 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+firmware\pvd\rtc\rtc.c:170:37: warning: format '%u' expects argument of type 'unsigned int', but argument 5 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+ld: warning: build\pvd\Debug\firmware.elf has a LOAD segment with RWX permissions
+
+pvd / Release: Kompilieren und Linken erfolgreich.
+firmware\pvd\Core\Src\X_stm32f1xx_system.c:9:22: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+firmware\pvd\Core\Src\X_stm32f1xx_system.c:10:30: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+firmware\pvd\Core\Src\X_stm32f1xx_system.c:256:16: warning: unused parameter 'file' [-Wunused-parameter]
+firmware\pvd\rtc\rtc.c:170:27: warning: format '%u' expects argument of type 'unsigned int', but argument 3 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+firmware\pvd\rtc\rtc.c:170:32: warning: format '%u' expects argument of type 'unsigned int', but argument 4 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+firmware\pvd\rtc\rtc.c:170:37: warning: format '%u' expects argument of type 'unsigned int', but argument 5 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+ld: warning: build\pvd\Release\firmware.elf has a LOAD segment with RWX permissions
+
+pwr10_standby / Debug: Kompilieren und Linken erfolgreich.
+firmware\pwr10_standby\Core\Src\X_stm32f1xx_system.c:9:22: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+firmware\pwr10_standby\Core\Src\X_stm32f1xx_system.c:10:30: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+firmware\pwr10_standby\Core\Src\X_stm32f1xx_system.c:307:16: warning: unused parameter 'file' [-Wunused-parameter]
+ld: warning: build\pwr10_standby\Debug\firmware.elf has a LOAD segment with RWX permissions
+
+pwr10_standby / Release: Kompilieren und Linken erfolgreich.
+firmware\pwr10_standby\Core\Src\X_stm32f1xx_system.c:9:22: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+firmware\pwr10_standby\Core\Src\X_stm32f1xx_system.c:10:30: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+firmware\pwr10_standby\Core\Src\X_stm32f1xx_system.c:307:16: warning: unused parameter 'file' [-Wunused-parameter]
+ld: warning: build\pwr10_standby\Release\firmware.elf has a LOAD segment with RWX permissions
+
+Ein vollständiger STM32CubeIDE-Import ist nicht geprüft.
+Keine Hardwaretests, Messwerte oder erfolgreiche Buskommunikation nachgewiesen.

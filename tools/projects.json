@@ -1,0 +1,32 @@
+{
+  "pvd": {
+    "includes": [
+      "Core/Inc",
+      "CMSIS",
+      "lcd",
+      "pwr",
+      "rtc",
+      "usart"
+    ],
+    "sources": [
+      "Core",
+      "lcd",
+      "pwr",
+      "rtc",
+      "usart"
+    ],
+    "hal": false
+  },
+  "pwr10_standby": {
+    "includes": [
+      "Core/Inc",
+      "CMSIS",
+      "rtc"
+    ],
+    "sources": [
+      "Core",
+      "rtc"
+    ],
+    "hal": false
+  }
+}

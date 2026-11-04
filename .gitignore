@@ -1,0 +1,35 @@
+# Build-Ausgaben
+build/
+**/Debug/
+**/Release/
+*.o
+*.d
+*.elf
+*.bin
+*.hex
+*.map
+*.list
+*.su
+__pycache__/
+
+# Lokale Entwicklungsumgebung
+.metadata/
+**/.settings/
+**/.mxproject
+*.launch
+*.lvlps
+*.aliases
+*.bak
+*.tmp
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Private Konfiguration und lokale Sicherungen
+.env
+.env.*
+!.env.example
+*.zip
+*.bundle
+*.pem
+*.key

@@ -1,0 +1,97 @@
+#include "stepper.h"
+
+
+void tim1_up_callback(void){
+
+	PWR->CR |= PWR_CR_CWUF;
+
+	__DSB();
+    __WFI();
+	__ISB();
+
+
+}
+void stepper_start(uint16_t Q,uint16_t R,uint16_t RPM,uint16_t DIR){
+
+	//TIM1->DIER &= ~TIM_DIER_UIE;
+	TIM3->PSC = (uint16_t)(337500/(1+RPM));
+	TIM3->CCR2 = DIR;
+	TIM1->RCR = Q;
+	TIM3->EGR = TIM_EGR_UG;
+	TIM1->EGR = TIM_EGR_UG;
+	TIM1->CNT = R;
+	TIM1->SR = ~TIM_SR_UIF;
+	//TIM1->DIER |= TIM_DIER_UIE;
+	TIM3->CR1 |= TIM_CR1_CEN;
+	TIM1->CR1 |= TIM_CR1_CEN;
+
+}
+
+void stepper_init(void){
+
+	RCC->APB2ENR |= RCC_APB2ENR_IOPBEN;
+
+	GPIOB->CRL &= ~(GPIO_CRL_MODE4|GPIO_CRL_MODE5|GPIO_CRL_CNF4|GPIO_CRL_CNF5);
+	GPIOB->CRL |= (GPIO_CRL_MODE4_1|GPIO_CRL_MODE5_1|GPIO_CRL_CNF4_1|GPIO_CRL_CNF5_1);
+
+	AFIO->MAPR &= ~AFIO_MAPR_TIM3_REMAP;
+	AFIO->MAPR |= AFIO_MAPR_TIM3_REMAP_1;
+
+	RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
+
+	TIM3->CR1 &= ~(TIM_CR1_CMS|TIM_CR1_DIR);
+	TIM3->PSC = 0xFFFF;
+	TIM3->ARR = (uint16_t)1;
+	TIM3->CCR1=(uint16_t)1;
+	TIM3->CCR2 = __DIR_CW;
+
+	TIM3->CCMR1 |= (TIM_CCMR1_CC1S|TIM_CCMR1_CC2S);
+	TIM3->CCMR1 |= (TIM_CCMR1_OC1PE|TIM_CCMR1_OC2PE);
+	TIM3->CCMR1 &= ~(TIM_CCMR1_CC1S|TIM_CCMR1_CC2S);
+	TIM3->CCMR1 |= (TIM_CCMR1_OC1M|TIM_CCMR1_OC2M);
+	TIM3->CCER   &= ~(TIM_CCER_CC1P|TIM_CCER_CC2P);
+	TIM3->CCER |= (TIM_CCER_CC1E|TIM_CCER_CC2E);
+
+	TIM3->EGR = TIM_EGR_UG;
+	TIM3->SR = ~TIM_SR_UIF;
+
+	//TIM3 master update 010
+	TIM3->CR2 &= ~TIM_CR2_MMS;
+	TIM3->CR2 |= TIM_CR2_MMS_1;
+
+	TIM3->SMCR &= ~TIM_SMCR_TS;
+
+	//tim3 gated mode 101
+	TIM3->SMCR &= ~TIM_SMCR_SMS;
+	TIM3->SMCR |= (TIM_SMCR_SMS_2|TIM_SMCR_SMS_0);
+
+	RCC->APB2ENR |= RCC_APB2ENR_TIM1EN;
+
+	TIM1->CR1 &= ~TIM_CR1_CMS;
+	TIM1->CR1 |= (TIM_CR1_DIR|TIM_CR1_OPM|TIM_CR1_ARPE);
+	TIM1->PSC = 0x0;
+	TIM1->ARR = 6400;
+
+	//TIM1 mms= enable 001
+	TIM1->CR2 &= ~TIM_CR2_MMS;
+	TIM1->CR2 |= TIM_CR2_MMS_0;
+
+	//master tim3 slave tim1 ITR1 TS= 010
+	TIM1->SMCR &= ~TIM_SMCR_TS;
+	TIM1->SMCR |= TIM_SMCR_TS_1;
+
+	TIM1->SMCR |= TIM_SMCR_SMS;
+	/*
+
+	TIM1->DIER |= TIM_DIER_UIE;
+	TIM1->SR = ~ TIM_SR_UIF;
+
+	uint32_t PG= NVIC_GetPriorityGrouping();
+	NVIC_SetPriority( TIM1_UP_IRQn ,NVIC_EncodePriority(PG, 5, 0));
+	X_CallBack_TIM1.UP = tim1_up_callback;
+	NVIC_EnableIRQ(  TIM1_UP_IRQn);
+*/
+}
+
+
+
